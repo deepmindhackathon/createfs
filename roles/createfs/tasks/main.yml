@@ -1,0 +1,23 @@
+---
+- name: for file
+  file:
+    path: "{{ filename }}"
+    state: touch
+    owner: potest
+    mode: "0644"
+  failed_when: filename is not defined
+
+- name: for dir
+  file:
+    path: "{{ directoryname }}"
+    state: directory
+    owner: potest
+    mode: "0644"
+  failed_when: directoryname is not defined
+  
+- name: shell
+  shell: 
+    cmd: df -h | awk '$5 ~ /([9][1-9]|[0-9]{3,})%/ {print}'
+  register: x
+
+- debug: var=x.stdout_lines
